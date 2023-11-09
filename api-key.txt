@@ -1,0 +1,6 @@
+curl --request GET \
+     --url 'https://api.themoviedb.org/3/movie/11?api_key=1743fd666a2c3f73019975839ce5122f'
+
+     1743fd666a2c3f73019975839ce5122f
+
+     https://api.themoviedb.org/3/movie/11
