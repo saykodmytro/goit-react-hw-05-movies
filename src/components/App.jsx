@@ -6,7 +6,7 @@ import { NavLink, Route, Routes } from 'react-router-dom';
 
 const App = () => {
   return (
-    <div>
+    <div className="head-cont">
       <header className="main-header">
         <NavLink className="header-link" to="/">
           Home

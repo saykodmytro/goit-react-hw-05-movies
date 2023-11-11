@@ -4,3 +4,7 @@ curl --request GET \
      1743fd666a2c3f73019975839ce5122f
 
      https://api.themoviedb.org/3/movie/11
+
+     trending
+
+     https://api.themoviedb.org/3/trending/movie/day?language=en-US
