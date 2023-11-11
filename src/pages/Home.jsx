@@ -6,24 +6,22 @@ import { Link, useLocation } from 'react-router-dom';
 const Home = () => {
   const [trendingMoviesList, setTrendingMoviesList] = useState([]);
   const [loader, setLoader] = useState(false);
-  // const [error, setError] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
-    try {
-      setLoader(true);
-      const getMoviesList = async () => {
+    const fetchData = async () => {
+      try {
+        setLoader(true);
         const { results } = await getTrendingMovies();
         console.log('results: ', results);
         setTrendingMoviesList(results);
-      };
-      getMoviesList();
-    } catch (error) {
-      console.log(error);
-      // setError(error.message);
-    } finally {
-      setLoader(false);
-    }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoader(false);
+      }
+    };
+    fetchData();
   }, []);
 
   return (

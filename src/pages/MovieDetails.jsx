@@ -1,7 +1,9 @@
 import { getMovieDetails } from 'api/themoviedb-api';
 import Loader from 'components/Loader/Loader';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useParams } from 'react-router-dom';
+import Cast from './Cast';
+import Reviews from './Reviews';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -12,19 +14,19 @@ const MovieDetails = () => {
   const imgUrl = 'https://image.tmdb.org/t/p/w400';
 
   useEffect(() => {
-    try {
-      setLoader(true);
-      const getMoviesInfo = async () => {
+    const getMoviesInfo = async () => {
+      try {
+        setLoader(true);
         const resp = await getMovieDetails(movieId);
         console.log('resp: ', resp.data);
         setMoviesDetails(resp.data);
-      };
-      getMoviesInfo();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoader(false);
-    }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoader(false);
+      }
+    };
+    getMoviesInfo();
   }, [movieId]);
   console.log('moviesDetails: ', moviesDetails);
 
@@ -68,13 +70,17 @@ const MovieDetails = () => {
         <h3>Aditional information</h3>
         <ul>
           <li>
-            <Link>Cast</Link>
+            <Link to="cast">Cast</Link>
           </li>
           <li>
-            <Link>Reviews</Link>
+            <Link to="reviews">Reviews</Link>
           </li>
         </ul>
       </div>
+      <Routes>
+        <Route path="cast" element={<Cast />} />
+        <Route path="reviews" element={<Reviews />} />
+      </Routes>
     </div>
   );
 };
