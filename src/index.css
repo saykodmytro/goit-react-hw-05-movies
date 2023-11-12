@@ -21,6 +21,7 @@ code {
   box-shadow: 0px 2px 29px 11px rgba(239, 140, 75, 0.75);
   padding: 20px 30px;
   margin-bottom: 20px;
+  border-radius: 10px;
 }
 
 .header-link {
@@ -80,6 +81,7 @@ code {
 .item-casts {
   box-shadow: 0px 2px 29px 11px rgba(239, 140, 75, 0.75);
   margin-bottom: 30px;
+  border-radius: 10px;
 }
 
 .input {
