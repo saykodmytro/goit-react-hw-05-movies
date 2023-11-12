@@ -1,9 +1,12 @@
 import { getMovieDetails } from 'api/themoviedb-api';
 import Loader from 'components/Loader/Loader';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Link, Route, Routes, useLocation, useParams } from 'react-router-dom';
-import Cast from './Cast';
-import Reviews from './Reviews';
+// import Cast from './Cast';
+// import Reviews from './Reviews';
+
+const Cast = lazy(() => import('./Cast'));
+const Reviews = lazy(() => import('./Reviews'));
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -12,14 +15,13 @@ const MovieDetails = () => {
   const [error, setError] = useState(null);
   const [moviesDetails, setMoviesDetails] = useState({});
   const backLinkRef = useRef(location.state?.from ?? '/');
-  const imgUrl = 'https://image.tmdb.org/t/p/w400';
+  const imgUrl = 'https://image.tmdb.org/t/p/w400/';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoader(true);
         const resp = await getMovieDetails(movieId);
-        console.log('resp: ', resp.data);
         setMoviesDetails(resp.data);
       } catch (error) {
         setError(error.message);
@@ -40,7 +42,11 @@ const MovieDetails = () => {
     genres,
   } = moviesDetails;
 
-  return (
+  return moviesDetails.length === 0 ? (
+    <h3 className="no-reviews">
+      Sorry, but there are no details for this movie!
+    </h3>
+  ) : (
     <div>
       {loader && <Loader />}
       {error !== null && <p className="error-bage">{error}</p>}
@@ -71,19 +77,25 @@ const MovieDetails = () => {
       </div>
       <div className="additional-info">
         <h3>Aditional information</h3>
-        <ul>
+        <ul className="list-add-info list">
           <li>
-            <Link to="cast">Cast</Link>
+            <Link className="go-back" to="cast">
+              Cast
+            </Link>
           </li>
           <li>
-            <Link to="reviews">Reviews</Link>
+            <Link className="go-back" to="reviews">
+              Reviews
+            </Link>
           </li>
         </ul>
       </div>
-      <Routes>
-        <Route path="cast" element={<Cast />} />
-        <Route path="reviews" element={<Reviews />} />
-      </Routes>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="cast" element={<Cast />} />
+          <Route path="reviews" element={<Reviews />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 };

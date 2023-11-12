@@ -26,11 +26,15 @@ const Cast = () => {
     fetchData();
   }, [movieId]);
 
-  return (
+  return movieCast.length === 0 ? (
+    <h3 className="no-reviews">
+      Sorry, but there are no casts for this movie!
+    </h3>
+  ) : (
     <div>
       {loader && <Loader />}
       {error !== null && <p className="error-bage">{error}</p>}
-      <ul className="list-casts">
+      <ul className="list-casts list">
         {movieCast.length !== 0 &&
           movieCast.map(
             ({ cast_id, original_name, character, profile_path }) => (

@@ -26,12 +26,14 @@ const Reviews = () => {
   }, [movieId]);
 
   return movieReviews.length === 0 ? (
-    <h3 className="no-reviews">No Reviews!</h3>
+    <h3 className="no-reviews">
+      Sorry, but there are no reviews for this movie!
+    </h3>
   ) : (
     <div>
       {loader && <Loader />}
       {error !== null && <p className="error-bage">{error}</p>}
-      <ul className="list-reviews">
+      <ul className="list-reviews list">
         {movieReviews.length !== 0 &&
           movieReviews.map(({ id, author, content }) => (
             <li key={id} className="item-casts">

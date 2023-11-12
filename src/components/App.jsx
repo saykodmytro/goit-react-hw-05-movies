@@ -1,28 +1,26 @@
-import Home from 'pages/Home';
-import MovieDetails from 'pages/MovieDetails';
-import Movies from 'pages/Movies';
-import React from 'react';
-import { NavLink, Route, Routes } from 'react-router-dom';
+// import Home from 'pages/Home';
+// import Movies from 'pages/Movies';
+// import MovieDetails from 'pages/MovieDetails';
+import React, { lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Layout from './Layout/Layout';
+import Loader from './Loader/Loader';
+
+const Home = lazy(() => import('pages/Home'));
+const Movies = lazy(() => import('pages/Movies'));
+const MovieDetails = lazy(() => import('pages/MovieDetails'));
 
 const App = () => {
   return (
-    <div className="head-cont">
-      <header className="main-header">
-        <NavLink className="header-link" to="/">
-          Home
-        </NavLink>
-        <NavLink className="header-link" to="/movies">
-          Movies
-        </NavLink>
-      </header>
-      <main>
+    <Layout>
+      <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/movies/:movieId/*" element={<MovieDetails />} />
         </Routes>
-      </main>
-    </div>
+      </Suspense>
+    </Layout>
   );
 };
 

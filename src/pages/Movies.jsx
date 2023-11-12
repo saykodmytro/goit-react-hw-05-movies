@@ -30,7 +30,6 @@ const Movies = () => {
         }
         setLoader(true);
         const resp = await getMovieByQuery(queryValue);
-        console.log('resp: ', resp);
         setMoviesListByName(resp);
         moviesListRef.current = resp;
       } catch (error) {
@@ -43,16 +42,18 @@ const Movies = () => {
     fetchData();
   }, [queryValue]);
 
-  console.log('moviesListByName: ', moviesListByName);
-
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label>
-          Enter movies:
-          <input type="text" name="moviesName" />
+        <label className="label">
+          <input
+            className="input"
+            type="text"
+            placeholder="Search"
+            name="moviesName"
+          />
+          <button className="go-back">Search</button>
         </label>
-        <button>Search</button>
       </form>
 
       <div>

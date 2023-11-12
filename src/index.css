@@ -18,7 +18,7 @@ code {
 }
 
 .main-header {
-  outline: 1px solid red;
+  box-shadow: 0px 2px 29px 11px rgba(239, 140, 75, 0.75);
   padding: 20px 30px;
   margin-bottom: 20px;
 }
@@ -69,4 +69,29 @@ code {
 .container-movie-details {
   display: flex;
   gap: 30px;
+}
+
+.list {
+  list-style: none;
+}
+.list-add-info {
+  display: flex;
+}
+.item-casts {
+  box-shadow: 0px 2px 29px 11px rgba(239, 140, 75, 0.75);
+  margin-bottom: 30px;
+}
+
+.input {
+  display: block;
+  border: none;
+  width: 300px;
+  height: 36px;
+  border-radius: 10px;
+  margin-top: 26px;
+  box-shadow: 0px 2px 29px 11px rgba(239, 140, 75, 0.75);
+}
+
+.label {
+  display: flex;
 }
