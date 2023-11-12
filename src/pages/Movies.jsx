@@ -1,31 +1,32 @@
 import { getMovieByQuery } from 'api/themoviedb-api';
 import Loader from 'components/Loader/Loader';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 const Movies = () => {
-  const [moviesName, setMoviesName] = useState('');
   const [moviesListByName, setMoviesListByName] = useState([]);
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const location = useLocation();
   const moviesListRef = useRef([]);
+  const queryValue = searchParams.get('query');
 
   const handleSubmit = e => {
     e.preventDefault();
-    const query = e.currentTarget.moviesName.value;
-    if (query.trim() === '') {
+    const value = e.currentTarget.moviesName.value;
+    if (value.trim() === '') {
       return alert('Sorry can not be empty');
     }
-    setMoviesName(query);
+    setSearchParams({ query: value });
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoader(true);
-        const resp = await getMovieByQuery(moviesName);
+        const resp = await getMovieByQuery(queryValue);
         console.log('resp: ', resp);
         setMoviesListByName(resp);
         moviesListRef.current = resp;
@@ -37,7 +38,7 @@ const Movies = () => {
       }
     };
     fetchData();
-  }, [moviesName]);
+  }, [queryValue]);
 
   console.log('moviesListByName: ', moviesListByName);
   return (
