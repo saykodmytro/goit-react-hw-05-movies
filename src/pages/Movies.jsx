@@ -1,15 +1,16 @@
 import { getMovieByQuery } from 'api/themoviedb-api';
 import Loader from 'components/Loader/Loader';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Movies = () => {
-  const location = useLocation();
-
   const [moviesName, setMoviesName] = useState('');
   const [moviesListByName, setMoviesListByName] = useState([]);
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
+
+  const location = useLocation();
+  const moviesListRef = useRef([]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -27,6 +28,7 @@ const Movies = () => {
         const resp = await getMovieByQuery(moviesName);
         console.log('resp: ', resp);
         setMoviesListByName(resp);
+        moviesListRef.current = resp;
       } catch (error) {
         console.log('error: ', error);
         setError(error.message);
@@ -37,6 +39,7 @@ const Movies = () => {
     fetchData();
   }, [moviesName]);
 
+  console.log('moviesListByName: ', moviesListByName);
   return (
     <div>
       <form action="" onSubmit={handleSubmit}>
