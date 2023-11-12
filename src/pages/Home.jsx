@@ -6,6 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 const Home = () => {
   const [trendingMoviesList, setTrendingMoviesList] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [error, setError] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -16,7 +17,7 @@ const Home = () => {
         console.log('results: ', results);
         setTrendingMoviesList(results);
       } catch (error) {
-        console.log(error);
+        setError(error.message);
       } finally {
         setLoader(false);
       }
@@ -27,6 +28,7 @@ const Home = () => {
   return (
     <div>
       {loader && <Loader />}
+      {error !== null && <p className="error-bage">{error}</p>}
       <h1 className="title">Trending today</h1>
       <ul className="list-movies">
         {trendingMoviesList.length !== 0 &&

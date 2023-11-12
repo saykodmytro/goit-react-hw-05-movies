@@ -1,9 +1,54 @@
-import React from 'react';
+import { getMovieCredits } from 'api/themoviedb-api';
+import Loader from 'components/Loader/Loader';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const Cast = () => {
-  const { moviedId } = useParams();
-  return <div>Cast {moviedId}</div>;
+  const { movieId } = useParams();
+  const [loader, setLoader] = useState(false);
+  const [movieCast, setMoviesCast] = useState([]);
+  const [error, setError] = useState(null);
+  const imgUrl = 'http://image.tmdb.org/t/p/original';
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoader(true);
+        const resp = await getMovieCredits(movieId);
+        setMoviesCast(resp.data.cast);
+      } catch (error) {
+        console.log(error);
+        setError(error.message);
+      } finally {
+        setLoader(false);
+      }
+    };
+    fetchData();
+  }, [movieId]);
+
+  return (
+    <div>
+      {loader && <Loader />}
+      {error !== null && <p className="error-bage">{error}</p>}
+      <ul className="list-casts">
+        {movieCast.length !== 0 &&
+          movieCast.map(
+            ({ cast_id, original_name, character, profile_path }) => (
+              <li key={cast_id} className="item-casts">
+                <img
+                  src={`${imgUrl}${profile_path}`}
+                  alt={original_name}
+                  width="150"
+                  height="200"
+                />
+                <h3 className="casts-name">{original_name}</h3>
+                <p className="casts-character">Character: {character}</p>
+              </li>
+            )
+          )}
+      </ul>
+    </div>
+  );
 };
 
 export default Cast;

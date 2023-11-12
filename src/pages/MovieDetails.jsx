@@ -9,26 +9,26 @@ const MovieDetails = () => {
   const { movieId } = useParams();
   const [loader, setLoader] = useState(false);
   const location = useLocation();
+  const [error, setError] = useState(null);
   const [moviesDetails, setMoviesDetails] = useState({});
   const backLinkRef = useRef(location.state?.from ?? '/');
   const imgUrl = 'https://image.tmdb.org/t/p/w400';
 
   useEffect(() => {
-    const getMoviesInfo = async () => {
+    const fetchData = async () => {
       try {
         setLoader(true);
         const resp = await getMovieDetails(movieId);
         console.log('resp: ', resp.data);
         setMoviesDetails(resp.data);
       } catch (error) {
-        console.log(error);
+        setError(error.message);
       } finally {
         setLoader(false);
       }
     };
-    getMoviesInfo();
+    fetchData();
   }, [movieId]);
-  console.log('moviesDetails: ', moviesDetails);
 
   const {
     poster_path,
@@ -43,6 +43,7 @@ const MovieDetails = () => {
   return (
     <div>
       {loader && <Loader />}
+      {error !== null && <p className="error-bage">{error}</p>}
       <Link className="go-back" to={backLinkRef.current}>
         Go back
       </Link>
@@ -52,6 +53,8 @@ const MovieDetails = () => {
             className="img-movie-id"
             src={`${imgUrl}${poster_path}`}
             alt={homepage}
+            width="300"
+            height="400"
           />
         </div>{' '}
         <div className="cont-movies-info">
