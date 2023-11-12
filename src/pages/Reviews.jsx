@@ -6,8 +6,8 @@ import { useParams } from 'react-router-dom';
 
 const Reviews = () => {
   const { movieId } = useParams();
-  const [loader, setLoader] = useState(false);
   const [movieReviews, setMoviesReviews] = useState([]);
+  const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -25,7 +25,9 @@ const Reviews = () => {
     fetchData();
   }, [movieId]);
 
-  return (
+  return movieReviews.length === 0 ? (
+    <h3 className="no-reviews">No Reviews!</h3>
+  ) : (
     <div>
       {loader && <Loader />}
       {error !== null && <p className="error-bage">{error}</p>}
