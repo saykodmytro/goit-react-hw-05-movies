@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 const Movies = () => {
-  const [moviesListByName, setMoviesListByName] = useState([]);
+  const [moviesListByName, setMoviesListByName] = useState(null);
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -15,7 +15,7 @@ const Movies = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const value = e.currentTarget.moviesName.value;
+    const value = e.currentTarget.elements.moviesName.value;
     if (value.trim() === '') {
       return alert('Sorry can not be empty');
     }
@@ -25,6 +25,9 @@ const Movies = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (!queryValue) {
+          return;
+        }
         setLoader(true);
         const resp = await getMovieByQuery(queryValue);
         console.log('resp: ', resp);
@@ -41,21 +44,22 @@ const Movies = () => {
   }, [queryValue]);
 
   console.log('moviesListByName: ', moviesListByName);
+
   return (
     <div>
-      <form action="" onSubmit={handleSubmit}>
-        <label htmlFor="">
+      <form onSubmit={handleSubmit}>
+        <label>
           Enter movies:
           <input type="text" name="moviesName" />
-          <button>Search</button>
         </label>
+        <button>Search</button>
       </form>
 
       <div>
         {loader && <Loader />}
         {error !== null && <p className="error-bage">{error}</p>}
         <ul className="list-movies">
-          {moviesListByName.length !== 0 &&
+          {moviesListByName !== null &&
             moviesListByName.map(({ id, original_title, original_name }) => (
               <li key={id} className="item-list-movies">
                 <Link state={{ from: location }} to={`/movies/${id}`}>
