@@ -2,8 +2,6 @@ import { getMovieDetails } from 'api/themoviedb-api';
 import Loader from 'components/Loader/Loader';
 import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Link, Route, Routes, useLocation, useParams } from 'react-router-dom';
-// import Cast from './Cast';
-// import Reviews from './Reviews';
 
 const Cast = lazy(() => import('./Cast'));
 const Reviews = lazy(() => import('./Reviews'));
