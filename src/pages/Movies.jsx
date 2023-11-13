@@ -1,15 +1,15 @@
 import { getMovieByQuery } from 'api/themoviedb-api';
 import Loader from 'components/Loader/Loader';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import MovieList from './MovieList';
 
 const Movies = () => {
-  const [moviesListByName, setMoviesListByName] = useState(null);
+  const [moviesListByName, setMoviesListByName] = useState([]);
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const location = useLocation();
   const moviesListRef = useRef([]);
   const queryValue = searchParams.get('query');
 
@@ -60,14 +60,7 @@ const Movies = () => {
         {loader && <Loader />}
         {error !== null && <p className="error-bage">{error}</p>}
         <ul className="list-movies">
-          {moviesListByName !== null &&
-            moviesListByName.map(({ id, original_title, original_name }) => (
-              <li key={id} className="item-list-movies">
-                <Link state={{ from: location }} to={`/movies/${id}`}>
-                  {original_title || original_name}
-                </Link>
-              </li>
-            ))}
+          <MovieList moviesList={moviesListByName} />
         </ul>
       </div>
     </div>

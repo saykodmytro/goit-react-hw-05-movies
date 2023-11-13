@@ -9,6 +9,8 @@ const Cast = () => {
   const [movieCast, setMoviesCast] = useState([]);
   const [error, setError] = useState(null);
   const imgUrl = 'http://image.tmdb.org/t/p/original';
+  const defaultImg =
+    'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,10 +42,9 @@ const Cast = () => {
             ({ cast_id, original_name, character, profile_path }) => (
               <li key={cast_id} className="item-casts">
                 <img
-                  src={`${imgUrl}${profile_path}`}
+                  src={profile_path ? `${imgUrl}${profile_path}` : defaultImg}
                   alt={original_name}
-                  width="150"
-                  height="200"
+                  width="250"
                 />
                 <h3 className="casts-name">{original_name}</h3>
                 <p className="casts-character">Character: {character}</p>
