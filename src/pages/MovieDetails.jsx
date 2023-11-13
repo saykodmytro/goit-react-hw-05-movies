@@ -2,6 +2,7 @@ import { getMovieDetails } from 'api/themoviedb-api';
 import Loader from 'components/Loader/Loader';
 import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Link, Route, Routes, useLocation, useParams } from 'react-router-dom';
+import { defaultImg, imgUrl } from 'utils/const';
 
 const Cast = lazy(() => import('./Cast'));
 const Reviews = lazy(() => import('./Reviews'));
@@ -13,7 +14,6 @@ const MovieDetails = () => {
   const [error, setError] = useState(null);
   const [moviesDetails, setMoviesDetails] = useState({});
   const backLinkRef = useRef(location.state?.from ?? '/');
-  const imgUrl = 'https://image.tmdb.org/t/p/w400/';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +55,7 @@ const MovieDetails = () => {
         <div className="cont-img">
           <img
             className="img-movie-id"
-            src={`${imgUrl}${poster_path}`}
+            src={poster_path ? `${imgUrl}${poster_path}` : defaultImg}
             alt={homepage}
             width="300"
             height="400"

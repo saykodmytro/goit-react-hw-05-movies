@@ -2,15 +2,13 @@ import { getMovieCredits } from 'api/themoviedb-api';
 import Loader from 'components/Loader/Loader';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { defaultImg, imgUrl } from 'utils/const';
 
 const Cast = () => {
   const { movieId } = useParams();
   const [loader, setLoader] = useState(false);
   const [movieCast, setMoviesCast] = useState([]);
   const [error, setError] = useState(null);
-  const imgUrl = 'http://image.tmdb.org/t/p/original';
-  const defaultImg =
-    'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700';
 
   useEffect(() => {
     const fetchData = async () => {
